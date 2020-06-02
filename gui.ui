@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Form</class>
+ <widget class="QWidget" name="Form">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>841</width>
+    <height>818</height>
+   </rect>
+  </property>
+  <property name="font">
+   <font>
+    <family>Sans</family>
+    <weight>75</weight>
+    <italic>false</italic>
+    <bold>true</bold>
+   </font>
+  </property>
+  <property name="windowTitle">
+   <string>Corona Information</string>
+  </property>
+  <property name="windowIcon">
+   <iconset theme="corona">
+    <normaloff>.</normaloff>.</iconset>
+  </property>
+  <property name="autoFillBackground">
+   <bool>false</bool>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">color: rgb(255, 255, 255);
+background-color: rgb(52, 52, 52)
+</string>
+  </property>
+  <widget class="QWidget" name="formLayoutWidget">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>10</y>
+     <width>841</width>
+     <height>761</height>
+    </rect>
+   </property>
+   <layout class="QFormLayout" name="hintergrund_grid">
+    <item row="1" column="0">
+     <layout class="QFormLayout" name="formLayout_2">
+      <item row="0" column="0">
+       <widget class="QLabel" name="bundes_label">
+        <property name="text">
+         <string>Information zu Bundesländer:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QListWidget" name="bundesland_wahl"/>
+      </item>
+      <item row="1" column="1">
+       <widget class="QTableWidget" name="data_bundesland">
+        <property name="styleSheet">
+         <string notr="true">color: rgb(255, 255, 255); background-color:rgb(52, 52, 52)</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="0">
+       <widget class="QLabel" name="stadt_label">
+        <property name="text">
+         <string>Information zu bestimmter Stadt/Landkreis:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="0">
+       <widget class="QListWidget" name="stadt_wahl">
+        <property name="minimumSize">
+         <size>
+          <width>200</width>
+          <height>0</height>
+         </size>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="1">
+       <widget class="QTableWidget" name="data_stadt">
+        <property name="styleSheet">
+         <string notr="true">color: rgb(255, 255, 255); background-color:rgb(52, 52, 52)</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="0">
+       <widget class="QLineEdit" name="county_input">
+        <property name="styleSheet">
+         <string notr="true">color: rgb(255, 255, 255); background-color:rgb(52, 52, 52)</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item row="1" column="1">
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <item>
+       <widget class="QLabel" name="bundesinfo_label">
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>17</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>COVID 19 Bundesrepublik</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QTableWidget" name="gesamt_data">
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>100</height>
+         </size>
+        </property>
+        <property name="showGrid">
+         <bool>false</bool>
+        </property>
+        <property name="cornerButtonEnabled">
+         <bool>false</bool>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item row="2" column="0">
+     <layout class="QHBoxLayout" name="horizontalLayout_3"/>
+    </item>
+    <item row="3" column="0">
+     <widget class="QLabel" name="graphik_titel">
+      <property name="text">
+       <string>Todeszahl in Abhängigkeit von Alter und Geschlecht:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="1">
+     <widget class="QLabel" name="label">
+      <property name="minimumSize">
+       <size>
+        <width>60</width>
+        <height>40</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>255</width>
+        <height>255</height>
+       </size>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="pixmap">
+       <pixmap>corona.png</pixmap>
+      </property>
+      <property name="scaledContents">
+       <bool>true</bool>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignBottom|Qt::AlignRight|Qt::AlignTrailing</set>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
