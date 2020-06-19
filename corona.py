@@ -4,27 +4,27 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
 
-## In case of later improvements following code is helpful for testing the
-## data-algorithmn before launching in gui
-# # # service_ulr = "https://opendata.arcgis.com/datasets/dd4580c810204019a7b8eb3e0b329dd6_0.geojson"
-# # r = requests.get(service_ulr)
-# # packages_json = r.json()
+# ## In case of later improvements following code is helpful for testing the
+# ## data-algorithmn before launching in gui
+# service_ulr = "https://opendata.arcgis.com/datasets/dd4580c810204019a7b8eb3e0b329dd6_0.geojson"
+# r = requests.get(service_ulr)
+# packages_json = r.json()
 
-# # with open("Data_RKI", "w") as Data_RKI:
-    # # json.dump(packages_json, Data_RKI, ensure_ascii=False, indent=4)
+# with open("Data_RKI", "w") as Data_RKI:
+    # json.dump(packages_json, Data_RKI, ensure_ascii=False, indent=4)
 
-# # JSON Data is ordered like this:
-# # dict_keys(['type', 'name', 'features'])
+# # # JSON Data is ordered like this:
+# # # dict_keys(['type', 'name', 'features'])
 
-# # Attribute keys:
-# # dict_keys(['FID', 'IdBundesland', 'Bundesland', 'Landkreis',
-# # 'Altersgruppe', 'Geschlecht', 'AnzahlFall', 'AnzahlTodesfall'
-# # , 'Meldedatum', 'IdLandkreis', 'Datenstand', 'NeuerFall', 'Ne
-# # uerTodesfall', 'Refdatum', 'NeuGenesen', 'AnzahlGenesen', 'Is
-# # tErkrankungsbeginn', 'Altersgruppe2'])
+# # # Attribute keys:
+# # # dict_keys(['FID', 'IdBundesland', 'Bundesland', 'Landkreis',
+# # # 'Altersgruppe', 'Geschlecht', 'AnzahlFall', 'AnzahlTodesfall'
+# # # , 'Meldedatum', 'IdLandkreis', 'Datenstand', 'NeuerFall', 'Ne
+# # # uerTodesfall', 'Refdatum', 'NeuGenesen', 'AnzahlGenesen', 'Is
+# # # tErkrankungsbeginn', 'Altersgruppe2'])
 
-# # with open("Data_RKI", "r") as Data_RKI:
-    # # packages_json = json.load(Data_RKI)
+# with open("Data_RKI", "r") as Data_RKI:
+    # packages_json = json.load(Data_RKI)
 
 # # print(dataframe["name"])
 
@@ -59,6 +59,14 @@ class Data:
             deaths += self.data["features"][i]["properties"]["AnzahlTodesfall"]
         return deaths
 
+    """Following method returns total number of new deaths of repuplic"""
+    def total_ndeath_number(self):
+        ndeaths = 0
+        for i in range(len(self.data["features"]) - 1):
+            if self.data["features"][i]["properties"]["NeuerTodesfall"] >= 0:
+                ndeaths += self.data["features"][i]["properties"]["NeuerTodesfall"]
+        return ndeaths
+
     """Following method returns total number of recovered patients of repuplic"""
     def total_recov_number(self):
         recov = 0
@@ -66,12 +74,28 @@ class Data:
             recov += self.data["features"][i]["properties"]["AnzahlGenesen"]
         return recov
 
+    """Following method returns total number of new recovered patients of repuplic"""
+    def total_nrecov_number(self):
+        nrecov = 0
+        for i in range(len(self.data["features"]) - 1):
+            if self.data["features"][i]["properties"]["NeuGenesen"] >= 0:
+                nrecov += self.data["features"][i]["properties"]["NeuGenesen"]
+        return nrecov
+
     """Following method returns total number of corona patients of republic"""
     def total_infections_number(self):
         positive = 0
         for i in range(len(self.data["features"]) - 1):
             positive += self.data["features"][i]["properties"]["AnzahlFall"]
         return positive
+
+    """Following method returns total number of corona patients of republic"""
+    def total_ninfections_number(self):
+        npositive = 0
+        for i in range(len(self.data["features"]) - 1):
+            if self.data["features"][i]["properties"]["NeuerFall"] >= 0:
+                npositive += self.data["features"][i]["properties"]["NeuerFall"]
+        return npositive
 
     """Method that returns the total number of deseased corona patients ordered
        by Sex either M or W of republic"""
@@ -131,6 +155,16 @@ class Data:
                 deaths += self.data["features"][i]["properties"]["AnzahlTodesfall"]
         return deaths
 
+    """Method that returns the total number of new deaths in specific federal state"""
+    def ndeath_number_fed(self, federal_state):
+        number = int(self.dicts_of_feds[str(federal_state)])
+        ndeaths = 0
+        for i in range(len(self.data["features"]) - 1):
+            if self.data["features"][i]["properties"]["IdBundesland"] == number\
+                and self.data["features"][i]["properties"]["NeuerTodesfall"] >= 0:
+                ndeaths += self.data["features"][i]["properties"]["NeuerTodesfall"]
+        return ndeaths
+
     """Method that returns the total number of recoveries in specific federal state"""
     def recov_number_fed(self, federal_state):
         number = int(self.dicts_of_feds[str(federal_state)])
@@ -139,6 +173,16 @@ class Data:
             if self.data["features"][i]["properties"]["IdBundesland"] == number:
                 recov += self.data["features"][i]["properties"]["AnzahlGenesen"]
         return recov
+
+    """Method that returns the total number of new recoveries in specific federal state"""
+    def nrecov_number_fed(self, federal_state):
+        number = int(self.dicts_of_feds[str(federal_state)])
+        nrecov = 0
+        for i in range(len(self.data["features"]) - 1):
+            if self.data["features"][i]["properties"]["IdBundesland"] == number\
+               and self.data["features"][i]["properties"]["NeuGenesen"] >= 0:
+                nrecov += self.data["features"][i]["properties"]["NeuGenesen"]
+        return nrecov
 
     """Method that returns the total number of corona patients of federal state"""
     def infections_number_fed(self, federal_state):
@@ -149,6 +193,16 @@ class Data:
                 positive += self.data["features"][i]["properties"]["AnzahlFall"]
         return positive
 
+    """Method that returns the total number of new corona patients of federal state"""
+    def ninfections_number_fed(self, federal_state):
+        number = int(self.dicts_of_feds[str(federal_state)])
+        npositive = 0
+        for i in range(len(self.data["features"]) - 1):
+            if self.data["features"][i]["properties"]["IdBundesland"] == number \
+               and self.data["features"][i]["properties"]["NeuerFall"] >= 0:
+                npositive += self.data["features"][i]["properties"]["NeuerFall"]
+        return npositive
+
     """Method that returns the total number of deseased corona patients from
        specific county"""
     def death_number_county(self, county):
@@ -158,6 +212,19 @@ class Data:
         for i in range(len(self.data["features"]) - 1):
             if self.data["features"][i]["properties"]["Landkreis"] == county:
                 deaths += self.data["features"][i]["properties"]["AnzahlTodesfall"]
+        return deaths
+
+    """Method that returns the total number of new deseased corona patients from
+       specific county"""
+    def ndeath_number_county(self, county):
+        if county not in self.list_of_county:
+            raise KeyError("This county does not exist")
+        deaths = 0
+        for i in range(len(self.data["features"]) - 1):
+            if self.data["features"][i]["properties"]["Landkreis"] == county \
+                and self.data["features"][i]["properties"]["NeuerTodesfall"]\
+                    >= 0:
+                deaths += self.data["features"][i]["properties"]["NeuerTodesfall"]
         return deaths
 
     """Method that returns the total number of corona patient in specific
@@ -171,6 +238,18 @@ class Data:
                 positive += self.data["features"][i]["properties"]["AnzahlFall"]
         return positive
 
+    """Method that returns the total number new of corona patient in specific
+       county"""
+    def ninfections_number_county(self, county):
+        if county not in self.list_of_county:
+            raise KeyError("This county does not exist")
+        positive = 0
+        for i in range(len(self.data["features"]) - 1):
+            if self.data["features"][i]["properties"]["Landkreis"] == county \
+               and self.data["features"][i]["properties"]["NeuerFall"] >= 0:
+                positive += self.data["features"][i]["properties"]["NeuerFall"]
+        return positive
+
     """Method that returns the total number of revoveries in specific county"""
     def recov_number_county(self, county):
         if county not in self.list_of_county:
@@ -179,6 +258,17 @@ class Data:
         for i in range(len(self.data["features"]) - 1):
             if self.data["features"][i]["properties"]["Landkreis"] == county:
                 recov += self.data["features"][i]["properties"]["AnzahlGenesen"]
+        return recov
+
+    """Method that returns the total number of revoveries in specific county"""
+    def nrecov_number_county(self, county):
+        if county not in self.list_of_county:
+            raise KeyError("This county does not exist")
+        recov = 0
+        for i in range(len(self.data["features"]) - 1):
+            if self.data["features"][i]["properties"]["Landkreis"] == county \
+               and self.data["features"][i]["properties"]["NeuGenesen"] >= 0:
+                recov += self.data["features"][i]["properties"]["NeuGenesen"]
         return recov
 
     # """Method that returns a bar plot of corona deaths depending on age and sex"""
@@ -195,3 +285,5 @@ class Data:
         # ax.legend()
         # plt.tight_layout()
         # plt.show()
+
+# data = Data(packages_json)
