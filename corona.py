@@ -29,11 +29,12 @@ import numpy as np
 # # print(dataframe["name"])
 
 
-"""Following code reads API Data of several health institutes and
+
+class Data:
+    """Following code reads API Data of several health institutes and
    makes it human readable"""
 
 
-class Data:
     def __init__(self, data):
         self.data = pd.DataFrame(data)
         dicts_of_feds = {}
@@ -52,54 +53,57 @@ class Data:
         self.list_of_county = list_of_county
         self.list_of_fed = self.dicts_of_feds.keys()
 
-    """Following method returns total number of deaths of repuplic"""
     def total_death_number(self):
+        """Following method returns total number of deaths of repuplic"""
+
         deaths = 0
         for i in range(len(self.data["features"]) - 1):
             deaths += self.data["features"][i]["properties"]["AnzahlTodesfall"]
         return deaths
 
-    """Following method returns total number of new deaths of repuplic"""
     def total_ndeath_number(self):
+        """Following method returns total number of new deaths of repuplic"""
+
         ndeaths = 0
         for i in range(len(self.data["features"]) - 1):
             if self.data["features"][i]["properties"]["NeuerTodesfall"] >= 0:
                 ndeaths += self.data["features"][i]["properties"]["NeuerTodesfall"]
         return ndeaths
 
-    """Following method returns total number of recovered patients of repuplic"""
     def total_recov_number(self):
+         """Following method returns total number of recovered patients of repuplic"""
         recov = 0
         for i in range(len(self.data["features"]) - 1):
             recov += self.data["features"][i]["properties"]["AnzahlGenesen"]
         return recov
 
-    """Following method returns total number of new recovered patients of repuplic"""
     def total_nrecov_number(self):
+        """Following method returns total number of new recovered patients of repuplic"""
+
         nrecov = 0
         for i in range(len(self.data["features"]) - 1):
             if self.data["features"][i]["properties"]["NeuGenesen"] >= 0:
                 nrecov += self.data["features"][i]["properties"]["NeuGenesen"]
         return nrecov
 
-    """Following method returns total number of corona patients of republic"""
     def total_infections_number(self):
+        """Following method returns total number of corona patients of republic"""
         positive = 0
         for i in range(len(self.data["features"]) - 1):
             positive += self.data["features"][i]["properties"]["AnzahlFall"]
         return positive
 
-    """Following method returns total number of corona patients of republic"""
     def total_ninfections_number(self):
+        """Following method returns total number of corona patients of republic"""
         npositive = 0
         for i in range(len(self.data["features"]) - 1):
             if self.data["features"][i]["properties"]["NeuerFall"] >= 0:
                 npositive += self.data["features"][i]["properties"]["NeuerFall"]
         return npositive
 
-    """Method that returns the total number of deseased corona patients ordered
-       by Sex either M or W of republic"""
     def sex_deseased(self, sex):
+        """Method that returns the total number of deseased corona patients ordered
+       by Sex either M or W of republic"""
         if not (sex == "M" or sex == "W"):
             raise KeyError("M for male or W for woman ar valid keywords")
         deaths = 0
@@ -108,9 +112,9 @@ class Data:
                 deaths += self.data["features"][i]["properties"]["AnzahlTodesfall"]
         return deaths
 
-    """Following method returns the number of infected corona patients
-       depending of sex and age-group"""
     def sex_age_infec(self):
+        """Following method returns the number of infected corona patients
+       depending of sex and age-group"""
         ages = ["A00-A04", "A05-A14", "A15-A34", "A35-A59", "A60-A79", "A80+"]
         ages_infec_male = {}
         ages_infec_female = {}
@@ -126,10 +130,10 @@ class Data:
             ages_infec_male[elem] = x
             ages_infec_female[elem] = y
         return (ages_infec_female, ages_infec_male)
-
-    """Following method returns the number of deseased corona patients
-       depending of sex and age-group"""
+    
     def sex_age_death(self):
+        """Following method returns the number of deseased corona patients
+        depending of sex and age-group"""
         ages = ["A00-A04", "A05-A14", "A15-A34", "A35-A59", "A60-A79", "A80+"]
         ages_deaths_male = {}
         ages_deaths_female = {}
@@ -146,17 +150,17 @@ class Data:
             ages_deaths_female[elem] = y
         return (ages_deaths_female, ages_deaths_male)
 
-    """Method that returns the total number of deaths in specific federal state"""
     def death_number_fed(self, federal_state):
+        """Method that returns the total number of deaths in specific federal state"""
         number = int(self.dicts_of_feds[str(federal_state)])
         deaths = 0
         for i in range(len(self.data["features"]) - 1):
             if self.data["features"][i]["properties"]["IdBundesland"] == number:
                 deaths += self.data["features"][i]["properties"]["AnzahlTodesfall"]
         return deaths
-
-    """Method that returns the total number of new deaths in specific federal state"""
+    
     def ndeath_number_fed(self, federal_state):
+        """Method that returns the total number of new deaths in specific federal state"""
         number = int(self.dicts_of_feds[str(federal_state)])
         ndeaths = 0
         for i in range(len(self.data["features"]) - 1):
@@ -165,8 +169,8 @@ class Data:
                 ndeaths += self.data["features"][i]["properties"]["NeuerTodesfall"]
         return ndeaths
 
-    """Method that returns the total number of recoveries in specific federal state"""
     def recov_number_fed(self, federal_state):
+        """Method that returns the total number of recoveries in specific federal state"""
         number = int(self.dicts_of_feds[str(federal_state)])
         recov = 0
         for i in range(len(self.data["features"]) - 1):
@@ -174,8 +178,9 @@ class Data:
                 recov += self.data["features"][i]["properties"]["AnzahlGenesen"]
         return recov
 
-    """Method that returns the total number of new recoveries in specific federal state"""
     def nrecov_number_fed(self, federal_state):
+        """Method that returns the total number of new recoveries in specific federal state"""
+
         number = int(self.dicts_of_feds[str(federal_state)])
         nrecov = 0
         for i in range(len(self.data["features"]) - 1):
@@ -184,8 +189,9 @@ class Data:
                 nrecov += self.data["features"][i]["properties"]["NeuGenesen"]
         return nrecov
 
-    """Method that returns the total number of corona patients of federal state"""
     def infections_number_fed(self, federal_state):
+        """Method that returns the total number of corona patients of federal state"""
+
         number = int(self.dicts_of_feds[str(federal_state)])
         positive = 0
         for i in range(len(self.data["features"]) - 1):
@@ -193,8 +199,9 @@ class Data:
                 positive += self.data["features"][i]["properties"]["AnzahlFall"]
         return positive
 
-    """Method that returns the total number of new corona patients of federal state"""
     def ninfections_number_fed(self, federal_state):
+        """Method that returns the total number of new corona patients of federal state"""
+
         number = int(self.dicts_of_feds[str(federal_state)])
         npositive = 0
         for i in range(len(self.data["features"]) - 1):
@@ -203,9 +210,9 @@ class Data:
                 npositive += self.data["features"][i]["properties"]["NeuerFall"]
         return npositive
 
-    """Method that returns the total number of deseased corona patients from
-       specific county"""
     def death_number_county(self, county):
+        """Method that returns the total number of deseased corona patients from
+        specific county"""
         if county not in self.list_of_county:
             raise KeyError("This county does not exist")
         deaths = 0
@@ -214,9 +221,9 @@ class Data:
                 deaths += self.data["features"][i]["properties"]["AnzahlTodesfall"]
         return deaths
 
-    """Method that returns the total number of new deseased corona patients from
-       specific county"""
     def ndeath_number_county(self, county):
+        """Method that returns the total number of new deseased corona patients from
+        specific county"""
         if county not in self.list_of_county:
             raise KeyError("This county does not exist")
         deaths = 0
@@ -227,9 +234,9 @@ class Data:
                 deaths += self.data["features"][i]["properties"]["NeuerTodesfall"]
         return deaths
 
-    """Method that returns the total number of corona patient in specific
-       county"""
     def infections_number_county(self, county):
+        """Method that returns the total number of corona patient in specific
+        county"""
         if county not in self.list_of_county:
             raise KeyError("This county does not exist")
         positive = 0
@@ -238,9 +245,9 @@ class Data:
                 positive += self.data["features"][i]["properties"]["AnzahlFall"]
         return positive
 
-    """Method that returns the total number new of corona patient in specific
-       county"""
     def ninfections_number_county(self, county):
+        """Method that returns the total number new of corona patient in specific
+        county"""
         if county not in self.list_of_county:
             raise KeyError("This county does not exist")
         positive = 0
@@ -250,8 +257,9 @@ class Data:
                 positive += self.data["features"][i]["properties"]["NeuerFall"]
         return positive
 
-    """Method that returns the total number of revoveries in specific county"""
+    
     def recov_number_county(self, county):
+        """Method that returns the total number of revoveries in specific county"""
         if county not in self.list_of_county:
             raise KeyError("This county does not exist")
         recov = 0
@@ -260,8 +268,9 @@ class Data:
                 recov += self.data["features"][i]["properties"]["AnzahlGenesen"]
         return recov
 
-    """Method that returns the total number of revoveries in specific county"""
     def nrecov_number_county(self, county):
+        """Method that returns the total number of revoveries in specific county"""
+
         if county not in self.list_of_county:
             raise KeyError("This county does not exist")
         recov = 0
@@ -285,5 +294,5 @@ class Data:
         # ax.legend()
         # plt.tight_layout()
         # plt.show()
-
-# data = Data(packages_json)
+if __name__ is "__main__":
+    data = Data(packages_json)
